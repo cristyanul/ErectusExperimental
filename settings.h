@@ -6,134 +6,7 @@
 #include "common.h"
 #include "utils.h"
 
-struct LooterSettings
-{
-	enum class Mode
-	{
-		Disabled,
-		Auto,
-		Keybind,
-	} mode{};
 
-	struct Looters {
-		bool npcs;
-		bool groundItems;
-		bool containers;
-		bool flora;
-	} looters{};
-
-	struct Selection {
-		struct WeaponsAndArmor
-		{
-			bool all;
-			bool oneStar;
-			bool twoStar;
-			bool threeStar;
-
-			[[nodiscard]] bool IsEnabled() const { return all || oneStar || twoStar || threeStar; }
-		} weapons{}, apparel{};
-
-		struct Aid
-		{
-			bool all;
-			bool magazines;
-			bool bobbleheads;
-
-			[[nodiscard]] bool IsEnabled() const { return all || magazines || bobbleheads; }
-		} aid{};
-
-		struct Misc
-		{
-			bool all;
-
-			[[nodiscard]] bool IsEnabled() const { return all; }
-		} misc{};
-
-		struct Holo
-		{
-			bool all;
-
-			[[nodiscard]] bool IsEnabled() const { return all; }
-		} holo{};
-
-		struct Notes
-		{
-			bool all;
-			bool treasureMaps;
-			bool plansKnown;
-			bool plansUnknown;
-
-			[[nodiscard]] bool IsEnabled() const { return all || treasureMaps || plansKnown || plansUnknown; }
-		} notes{};
-
-		struct Junk
-		{
-			bool all;
-
-			std::unordered_map<std::uint32_t, bool>	components = []() {
-				std::unordered_map<std::uint32_t, bool> result(JUNK_COMPONENT_NAMES.size());
-				for (const auto& [formId, isEnabled] : JUNK_COMPONENT_NAMES)
-					result.emplace(formId, false);
-				return result;
-			}();
-
-			[[nodiscard]] bool IsEnabled() const { return all || std::find_if(components.begin(), components.end(), [](const auto& element) { return element.second == true; }) != components.end(); }
-		} junk{};
-
-		struct Flora
-		{
-			bool all;
-
-			std::unordered_map<std::uint32_t, bool>	components = []() {
-				std::unordered_map<std::uint32_t, bool> result(FLORA_COMPONENT_NAMES.size());
-				for (const auto& [formId, isEnabled] : FLORA_COMPONENT_NAMES)
-					result.emplace(formId, false);
-				return result;
-			}();
-
-			[[nodiscard]] bool IsEnabled() const { return all || std::find_if(components.begin(), components.end(), [](const auto& element) { return element.second == true; }) != components.end(); }
-		} flora{};
-
-		struct Mods
-		{
-			bool all;
-
-			[[nodiscard]] bool IsEnabled() const { return all; }
-		} mods{};
-
-		struct Ammo
-		{
-			bool all;
-
-			[[nodiscard]] bool IsEnabled() const { return all; }
-		} ammo{};
-
-		struct Other
-		{
-			bool caps;
-
-			[[nodiscard]] bool IsEnabled() const { return caps; }
-		} other{};
-
-		std::map<std::uint32_t, bool> whitelist, blacklist;
-
-		[[nodiscard]] bool IsEnabled() const {
-			return weapons.IsEnabled()
-				|| apparel.IsEnabled()
-				|| aid.IsEnabled()
-				|| misc.IsEnabled()
-				|| holo.IsEnabled()
-				|| notes.IsEnabled()
-				|| junk.IsEnabled()
-				|| flora.IsEnabled()
-				|| mods.IsEnabled()
-				|| ammo.IsEnabled()
-				|| other.IsEnabled()
-				|| std::find_if(whitelist.begin(), whitelist.end(), [](const auto& element) { return element.second == true; }) != whitelist.end()
-				|| std::find_if(blacklist.begin(), blacklist.end(), [](const auto& element) { return element.second == true; }) != blacklist.end();
-		}
-	} selection;
-};
 struct EspSettings
 {
 	struct Actors
@@ -326,16 +199,6 @@ public:
 	};
 };
 
-class TeleporterSettings
-{
-public:
-	struct Entry {
-		Vector3 position;
-		Vector3 rotation;
-		std::uint32_t cellFormId;
-		bool disableSaving;
-	} entries[16];
-};
 
 class NukeCodeSettings
 {
@@ -369,8 +232,7 @@ public:
 	static void Write();
 
 	inline static EspSettings esp = {};
-	inline static LooterSettings looter = {};
-	inline static MessageWriterSettings msgWriter = {};
+
 
 	//utils
 	inline static WeaponEditorSettings weapons = {};
@@ -380,7 +242,6 @@ public:
 	inline static UtilitySettings utilities = {};
 	inline static SwapperSettings swapper = {};
 	inline static TransferSettings customTransferSettings = {};
-	inline static TeleporterSettings teleporter = {};
 	inline static NukeCodeSettings customNukeCodeSettings = {};
 	inline static MeleeSettings melee = { false,10,20 };
 	inline static ChargenSettings characterEditor = { false,0.33f,0.33f,0.33f };
@@ -393,8 +254,6 @@ private:
 	static void SetEspSettings();
 	static void GetInfoBoxSettings();
 	static void SetInfoBoxSettings();
-	static void GetLooterSettings();
-	static void SetLooterSettings();
 
 	static void GetWeaponSettings();
 	static void SetWeaponSettings();
@@ -410,8 +269,6 @@ private:
 	static void SetSwapperSettings();
 	static void GetTransferSettings();
 	static void SetTransferSettings();
-	static void GetTeleportSettings();
-	static void SetTeleportSettings();
 	static void GetNukeCodeSettings();
 	static void SetNukeCodeSettings();
 	static void GetLegendarySettings();
@@ -424,8 +281,7 @@ private:
 	static void SetMeleeSettings();
 	static void GetChargenSettings();
 	static void SetChargenSettings();
-	static void GetBitMsgWriterSettings();
-	static void SetBitMsgWriterSettings();
+
 
 	static void GetDword(const std::string& section, const std::string& key, std::uint32_t& value, std::uint32_t deflt);
 	static void SetDword(const std::string& section, const std::string& key, std::uint32_t value, std::uint32_t deflt);

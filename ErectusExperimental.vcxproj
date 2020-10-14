@@ -136,8 +136,6 @@
     <ClCompile Include="dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="features\Looter.cpp" />
-    <ClCompile Include="features\MsgSender.cpp" />
     <ClCompile Include="features\PlayerStatsEditor.cpp" />
     <ClCompile Include="features\WeaponEditor.cpp" />
     <ClCompile Include="game\Datatypes\Camera.cpp" />
@@ -181,8 +179,6 @@
     <ClInclude Include="dependencies\mIni\ini.h" />
     <ClInclude Include="ErectusMemory.h" />
     <ClInclude Include="ErectusProcess.h" />
-    <ClInclude Include="features\Looter.h" />
-    <ClInclude Include="features\MsgSender.h" />
     <ClInclude Include="features\PlayerStatsEditor.h" />
     <ClInclude Include="features\WeaponEditor.h" />
     <ClInclude Include="game\Datatypes\Camera.h" />

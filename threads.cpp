@@ -8,7 +8,6 @@
 
 #include "ErectusMemory.h"
 #include "ErectusProcess.h"
-#include "features/Looter.h"
 #include "features/PlayerStatsEditor.h"
 #include "features/WeaponEditor.h"
 #include "game/Game.h"
@@ -274,18 +273,7 @@ DWORD WINAPI Threads::MultihackThread([[maybe_unused]] LPVOID lpParameter)
 	return 0xBEAD;
 }
 
-DWORD WINAPI Threads::Looter([[maybe_unused]] LPVOID lpParameter)
-{
-	while (!threadDestructionState)
-	{
-		Looter::Loot();
-		std::this_thread::sleep_for(std::chrono::milliseconds(Utils::GetRangedInt(36, 72) * 16));
-	}
 
-	looterThreadActive = false;
-
-	return 0xDEAF;
-}
 
 bool Threads::CreateProcessThreads()
 {
@@ -348,15 +336,7 @@ bool Threads::CreateProcessThreads()
 		}
 	}
 
-	if (!looterThreadActive)
-	{
-		looterThreadActive = CloseHandle(CreateThread(nullptr, 0, &Looter, nullptr, 0, nullptr));
-		if (!looterThreadActive)
-		{
-			threadDestructionQueued = true;
-			return false;
-		}
-	}
+	
 
 	return true;
 }
@@ -380,8 +360,7 @@ bool Threads::ThreadDestruction()
 	if (multihackThreadActive)
 		return false;
 
-	if (looterThreadActive)
-		return false;
+
 
 	threadCreationState = false;
 	threadDestructionQueued = false;

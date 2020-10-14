@@ -6,7 +6,7 @@
 #include "app.h"
 #include "renderer.h"
 #include "threads.h"
-#include "features/MsgSender.h"
+
 
 void ErectusProcess::SetProcessError(const int errorId, const char* error)
 {
@@ -36,8 +36,8 @@ void ErectusProcess::ResetProcessData()
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
 
-		if (!areThreadsActive)
-			MsgSender::Patcher(false);
+
+
 	}
 
 	pid = 0;

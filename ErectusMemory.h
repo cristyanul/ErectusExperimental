@@ -230,14 +230,7 @@ public:
 };
 
 //unknown
-class RequestTeleportMessage
-{
-public:
-	std::uintptr_t vtable;//0x0
-	Vector3 position;//0x8
-	Vector3 rotation;//0x14
-	std::uintptr_t cellPtr;//0x20
-};
+
 
 class ClientStateMsg
 {
@@ -440,10 +433,6 @@ public:
 	inline static std::array<int, 8> alphaCode = { };
 	inline static std::array<int, 8> bravoCode = { };
 	inline static std::array<int, 8> charlieCode = { };
-
-	//teleporter
-	static bool SaveTeleportPosition(int index);
-	static bool RequestTeleport(int index);
 
 	//freezeAP
 	static bool FreezeActionPoints(std::uintptr_t& freezeApPage, bool& freezeApPageValid, bool enabled);

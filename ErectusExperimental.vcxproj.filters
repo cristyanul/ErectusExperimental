@@ -84,12 +84,6 @@
     <ClCompile Include="game\Datatypes\TesObjectRefr.cpp">
       <Filter>game\datatypes</Filter>
     </ClCompile>
-    <ClCompile Include="features\Looter.cpp">
-      <Filter>features</Filter>
-    </ClCompile>
-    <ClCompile Include="features\MsgSender.cpp">
-      <Filter>features</Filter>
-    </ClCompile>
     <ClCompile Include="features\PlayerStatsEditor.cpp">
       <Filter>features</Filter>
     </ClCompile>
@@ -185,12 +179,6 @@
     </ClInclude>
     <ClInclude Include="game\Datatypes\TesWorldSpace.h">
       <Filter>game\datatypes</Filter>
-    </ClInclude>
-    <ClInclude Include="features\Looter.h">
-      <Filter>features</Filter>
-    </ClInclude>
-    <ClInclude Include="features\MsgSender.h">
-      <Filter>features</Filter>
     </ClInclude>
     <ClInclude Include="features\PlayerStatsEditor.h">
       <Filter>features</Filter>

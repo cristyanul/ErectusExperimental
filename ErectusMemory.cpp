@@ -11,7 +11,6 @@
 
 #include "ErectusProcess.h"
 #include "dependencies/fmt/fmt/format.h"
-#include "features/MsgSender.h"
 #include "game/Game.h"
 
 std::uintptr_t ErectusMemory::GetAddress(const std::uint32_t formId)
@@ -1232,39 +1231,11 @@ bool ErectusMemory::TransferItems(const std::uint32_t sourceFormId, const std::u
 			.bIsExpectingResult = false,
 			.count = count,
 		};
-		MsgSender::Send(&transferMessageData, sizeof transferMessageData);
 	}
 	return true;
 }
 
-bool ErectusMemory::SaveTeleportPosition(const int index)
-{
-	const auto player = Game::GetLocalPlayer();
-	if (!player.IsIngame())
-		return false;
 
-	Settings::teleporter.entries[index].position = player.position;
-	Settings::teleporter.entries[index].rotation.z = player.yaw;
-	Settings::teleporter.entries[index].cellFormId = player.GetCurrentCell().formId;
-
-	return true;
-}
-
-bool ErectusMemory::RequestTeleport(const int index)
-{
-	const auto cellPtr = GetPtr(Settings::teleporter.entries[index].cellFormId);
-	if (!Utils::Valid(cellPtr))
-		return false;
-
-	RequestTeleportMessage requestTeleportMessageData =
-	{
-		.vtable = ErectusProcess::exe + VTABLE_REQUESTTELEPORTTOLOCATIONMSG,
-		.position = Settings::teleporter.entries[index].position,
-		.rotation = Settings::teleporter.entries[index].rotation,
-		.cellPtr = cellPtr
-	};
-	return MsgSender::Send(&requestTeleportMessageData, sizeof requestTeleportMessageData);
-}
 
 void ErectusMemory::UpdateNukeCodes()
 {
@@ -1369,7 +1340,7 @@ bool ErectusMemory::SetClientState(const std::uintptr_t clientState)
 
 	ClientStateMsg clientStateMsgData{ .vtable = ErectusProcess::exe + VTABLE_CLIENTSTATEMSG, .clientState = clientState };
 
-	return MsgSender::Send(&clientStateMsgData, sizeof clientStateMsgData);
+
 }
 
 bool ErectusMemory::PositionSpoofing(const bool enabled)
@@ -1506,9 +1477,6 @@ bool ErectusMemory::SendDamage(const std::uintptr_t targetPtr, const std::uint32
 		return false;
 
 	if (!weaponId)
-		return false;
-
-	if (!MsgSender::IsEnabled())
 		return false;
 
 	const auto player = Game::GetLocalPlayer();
@@ -1830,8 +1798,6 @@ std::unordered_map<int, std::string> ErectusMemory::GetFavoritedWeapons()
 
 bool ErectusMemory::MeleeAttack()
 {
-	if (!MsgSender::IsEnabled())
-		return false;
 
 	const auto player = Game::GetLocalPlayer();
 	if (!player.IsIngame())

@@ -235,130 +235,7 @@ void Settings::SetItemSettings(const std::string& section, EspSettings::Items& v
 	SetBool(section, "ShowDistance", value.showDistance, deflt.showDistance);
 }
 
-void Settings::GetLooterSettings()
-{
-	auto modeInt = 0;
-	GetInt("Looter", "mode", modeInt, 0);
-	looter.mode = static_cast<LooterSettings::Mode>(modeInt);
 
-	GetBool("Looter", "lootersNpc", looter.looters.npcs, false);
-	GetBool("Looter", "lootersGroundItems", looter.looters.groundItems, false);
-	GetBool("Looter", "lootersContainers", looter.looters.containers, false);
-	GetBool("Looter", "lootersFlora", looter.looters.flora, false);
-
-	GetBool("Looter", "weaponsAll", looter.selection.weapons.all, false);
-	GetBool("Looter", "weaponsOneStar", looter.selection.weapons.oneStar, false);
-	GetBool("Looter", "weaponsTwoStar", looter.selection.weapons.twoStar, false);
-	GetBool("Looter", "weaponsThreeStar", looter.selection.weapons.threeStar, false);
-
-	GetBool("Looter", "apparelAll", looter.selection.apparel.all, false);
-	GetBool("Looter", "apparelOneStar", looter.selection.apparel.oneStar, false);
-	GetBool("Looter", "apparelTwoStar", looter.selection.apparel.twoStar, false);
-	GetBool("Looter", "apparelThreeStar", looter.selection.apparel.threeStar, false);
-
-	GetBool("Looter", "aidAll", looter.selection.aid.all, false);
-	GetBool("Looter", "aidMagazines", looter.selection.aid.magazines, false);
-	GetBool("Looter", "aidBobbleheads", looter.selection.aid.bobbleheads, false);
-
-	GetBool("Looter", "miscAll", looter.selection.misc.all, false);
-
-	GetBool("Looter", "holoAll", looter.selection.holo.all, false);
-
-	GetBool("Looter", "notesAll", looter.selection.notes.all, false);
-	GetBool("Looter", "notesTreasureMaps", looter.selection.notes.treasureMaps, false);
-	GetBool("Looter", "notesPlansKnown", looter.selection.notes.plansKnown, false);
-	GetBool("Looter", "notesPlansUnknown", looter.selection.notes.plansUnknown, false);
-
-	GetBool("Looter", "junkAll", looter.selection.junk.all, false);
-	for (auto& [formId, isEnabled] : looter.selection.junk.components)
-	{
-		GetBool("Looter", format(FMT_STRING("junk{:x}"), formId), isEnabled, false);
-	}
-
-	GetBool("Looter", "floraAll", looter.selection.flora.all, false);
-	for (auto& [formId, isEnabled] : looter.selection.flora.components)
-	{
-		GetBool("Looter", format(FMT_STRING("flora{:x}"), formId), isEnabled, false);
-	}
-
-	GetBool("Looter", "modsAll", looter.selection.mods.all, false);
-
-	GetBool("Looter", "ammoAll", looter.selection.ammo.all, false);
-
-	GetBool("Looter", "otherCaps", looter.selection.other.caps, false);
-
-	for (const auto& [formIdString, isEnabledString] : ini["LooterWhitelist"])
-	{
-		looter.selection.whitelist.emplace(stoul(formIdString, nullptr, 16), static_cast<bool>(stoi(isEnabledString)));
-	}
-
-	for (const auto& [formIdString, isEnabledString] : ini["LooterBlacklist"])
-	{
-		looter.selection.blacklist.emplace(stoul(formIdString, nullptr, 16), static_cast<bool>(stoi(isEnabledString)));
-	}
-}
-void Settings::SetLooterSettings()
-{
-	SetInt("Looter", "mode", static_cast<int>(looter.mode), 0);
-
-	SetBool("Looter", "lootersNpc", looter.looters.npcs, false);
-	SetBool("Looter", "lootersGroundItems", looter.looters.groundItems, false);
-	SetBool("Looter", "lootersContainers", looter.looters.containers, false);
-	SetBool("Looter", "lootersFlora", looter.looters.flora, false);
-
-	SetBool("Looter", "weaponsAll", looter.selection.weapons.all, false);
-	SetBool("Looter", "weaponsOneStar", looter.selection.weapons.oneStar, false);
-	SetBool("Looter", "weaponsTwoStar", looter.selection.weapons.twoStar, false);
-	SetBool("Looter", "weaponsThreeStar", looter.selection.weapons.threeStar, false);
-
-	SetBool("Looter", "apparelAll", looter.selection.apparel.all, false);
-	SetBool("Looter", "apparelOneStar", looter.selection.apparel.oneStar, false);
-	SetBool("Looter", "apparelTwoStar", looter.selection.apparel.twoStar, false);
-	SetBool("Looter", "apparelThreeStar", looter.selection.apparel.threeStar, false);
-
-	SetBool("Looter", "aidAll", looter.selection.aid.all, false);
-	SetBool("Looter", "aidMagazines", looter.selection.aid.magazines, false);
-	SetBool("Looter", "aidBobbleheads", looter.selection.aid.bobbleheads, false);
-
-	SetBool("Looter", "miscAll", looter.selection.misc.all, false);
-
-	SetBool("Looter", "holoAll", looter.selection.holo.all, false);
-
-	SetBool("Looter", "notesAll", looter.selection.notes.all, false);
-	SetBool("Looter", "notesTreasureMaps", looter.selection.notes.treasureMaps, false);
-	SetBool("Looter", "notesPlansKnown", looter.selection.notes.plansKnown, false);
-	SetBool("Looter", "notesPlansUnknown", looter.selection.notes.plansUnknown, false);
-
-	SetBool("Looter", "junkAll", looter.selection.junk.all, false);
-	for (const auto& [formId, isEnabled] : looter.selection.junk.components)
-	{
-		SetBool("Looter", format(FMT_STRING("junk{:x}"), formId), isEnabled, false);
-	}
-
-	SetBool("Looter", "floraAll", looter.selection.flora.all, false);
-	for (const auto& [formId, isEnabled] : looter.selection.flora.components)
-	{
-		SetBool("Looter", format(FMT_STRING("flora{:x}"), formId), isEnabled, false);
-	}
-
-	SetBool("Looter", "modsAll", looter.selection.mods.all, false);
-
-	SetBool("Looter", "ammoAll", looter.selection.ammo.all, false);
-
-	SetBool("Looter", "otherCaps", looter.selection.other.caps, false);
-
-	ini.remove("LooterWhitelist");
-	for (const auto& [formId, isEnabled] : looter.selection.whitelist)
-	{
-		SetBool("LooterWhitelist", format(FMT_STRING("{:x}"), formId), isEnabled, false);
-	}
-
-	ini.remove("LooterBlacklist");
-	for (const auto& [formId, isEnabled] : looter.selection.blacklist)
-	{
-		SetBool("LooterBlacklist", format(FMT_STRING("{:x}"), formId), isEnabled, false);
-	}
-}
 
 void Settings::GetWeaponSettings()
 {
@@ -554,30 +431,8 @@ void Settings::SetTransferSettings()
 	}
 }
 
-void Settings::GetTeleportSettings()
-{
-	for (auto i = 0; i < 16; i++)
-	{
-		GetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}X"), i), teleporter.entries[i].position.x, 0.f);
-		GetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}Y"), i), teleporter.entries[i].position.y, 0.f);
-		GetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}Z"), i), teleporter.entries[i].position.z, 0.f);
-		GetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}W"), i), teleporter.entries[i].rotation.z, 0.f);
-		GetDword("TeleportSettings", format(FMT_STRING("CellFormId{:d}"), i), teleporter.entries[i].cellFormId, 0);
-		GetBool("TeleportSettings", format(FMT_STRING("DisableSaving{:d}"), i), teleporter.entries[i].disableSaving, false);
-	}
-}
-void Settings::SetTeleportSettings()
-{
-	for (auto i = 0; i < 16; i++)
-	{
-		SetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}X"), i), teleporter.entries[i].position.x, 0.f);
-		SetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}Y"), i), teleporter.entries[i].position.y, 0.f);
-		SetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}Z"), i), teleporter.entries[i].position.z, 0.f);
-		SetFloat("TeleportSettings", format(FMT_STRING("Destination{:d}W"), i), teleporter.entries[i].rotation.z, 0.f);
-		SetDword("TeleportSettings", format(FMT_STRING("CellFormId{:d}"), i), teleporter.entries[i].cellFormId, 0);
-		SetBool("TeleportSettings", format(FMT_STRING("DisableSaving{:d}"), i), teleporter.entries[i].disableSaving, false);
-	}
-}
+
+
 
 void Settings::GetNukeCodeSettings()
 {
@@ -681,15 +536,7 @@ void Settings::SetChargenSettings()
 	SetSliderFloat("ChargenSettings", "Large", characterEditor.large, 0, 0.0f, 1.0f);
 }
 
-void Settings::GetBitMsgWriterSettings()
-{
-	GetBool("BitMsgWriter", "AllowMessages", msgWriter.enabled, false);
-}
 
-void Settings::SetBitMsgWriterSettings()
-{
-	SetBool("BitMsgWriter", "AllowMessages", msgWriter.enabled, false);
-}
 
 void Settings::GetInfoBoxSettings()
 {
@@ -772,7 +619,6 @@ void Settings::Read()
 {
 	file.read(ini);
 
-	GetLooterSettings();
 	GetEspSettings();
 
 	GetWeaponSettings();
@@ -781,11 +627,11 @@ void Settings::Read()
 	GetOpkSettings();
 	GetUtilitySettings();
 	GetTransferSettings();
-	GetTeleportSettings();
+	
 	GetNukeCodeSettings();
 	GetMeleeSettings();
 	GetChargenSettings();
-	GetBitMsgWriterSettings();
+
 
 	file.write(ini, true);
 }
@@ -794,7 +640,7 @@ void Settings::Write()
 {
 	file.read(ini);
 
-	SetLooterSettings();
+
 	SetEspSettings();
 
 	SetWeaponSettings();
@@ -803,11 +649,11 @@ void Settings::Write()
 	SetOpkSettings();
 	SetUtilitySettings();
 	SetTransferSettings();
-	SetTeleportSettings();
+
 	SetNukeCodeSettings();
 	SetMeleeSettings();
 	SetChargenSettings();
-	SetBitMsgWriterSettings();
+
 
 	file.write(ini, true);
 }

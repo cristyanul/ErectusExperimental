@@ -9,7 +9,7 @@
 
 #include "ErectusProcess.h"
 #include "Window.hpp"
-#include "features/Looter.h"
+
 
 App::App(const HINSTANCE hInstance, const LPCSTR windowTitle) : appInstance(hInstance)
 {
@@ -155,10 +155,7 @@ void App::OnHotkey(const HotKey hotkey)
 		if (Settings::opk.enabled)
 			Threads::opkNpcsToggle = !Threads::opkNpcsToggle;
 		break;
-	case HotKey::Loot:
-		if (Settings::looter.mode == LooterSettings::Mode::Keybind)
-			Looter::RequestLootItems();
-		break;
+	
 	case HotKey::ToggleOverlay:
 		ToggleOverlay();
 		break;

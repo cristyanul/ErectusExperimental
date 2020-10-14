@@ -20,14 +20,12 @@ private:
 	static DWORD __stdcall WeaponEditorThread(LPVOID lpParameter);
 	static DWORD __stdcall LockingThread(LPVOID lpParameter);
 	static DWORD __stdcall MultihackThread(LPVOID lpParameter);
-	static DWORD __stdcall Looter(LPVOID lpParameter);
 
 	inline static bool bufferEntityListThreadActive = false;
 	inline static bool bufferPlayerListThreadActive = false;
 	inline static bool weaponEditorThreadActive = false;
 	inline static bool lockingThreadActive = false;
 	inline static bool multihackThreadActive = false;
-	inline static bool looterThreadActive = false;
 
 	inline static bool threadDestructionState = false;
 

@@ -1,7 +1,6 @@
 #include <memory>
 
 #include "Looter.h"
-#include "MsgSender.h"
 #include "../ErectusMemory.h"
 #include "../ErectusProcess.h"
 #include "../settings.h"
@@ -149,8 +148,7 @@ bool Looter::ShouldLootItem(const ItemInfo& item, const std::uintptr_t displayPt
 
 bool Looter::LootGroundItem(const ItemInfo& item, const LocalPlayer& player)
 {
-	if (!MsgSender::IsEnabled())
-		return false;
+	
 
 	if (!Settings::looter.looters.groundItems)
 		return false;
@@ -167,15 +165,14 @@ bool Looter::LootGroundItem(const ItemInfo& item, const LocalPlayer& player)
 		.choice = 0xFF,
 		.forceActivate = 0
 	};
-	MsgSender::Send(&requestActivateRefMessageData, sizeof requestActivateRefMessageData);
+
 
 	return true;
 }
 
 bool Looter::LootContainer(const ItemInfo& item, const LocalPlayer& player)
 {
-	if (!MsgSender::IsEnabled())
-		return false;
+	
 
 	switch (item.type)
 	{
@@ -247,15 +244,13 @@ bool Looter::LootContainer(const ItemInfo& item, const LocalPlayer& player)
 			.bIsExpectingResult = false,
 			.count = count,
 		};
-		MsgSender::Send(&transferMessageData, sizeof transferMessageData);
 	}
 	return true;
 }
 
 bool Looter::LootFlora(const ItemInfo& item, const LocalPlayer& player)
 {
-	if (!MsgSender::IsEnabled())
-		return false;
+
 
 	if (!Settings::looter.looters.flora)
 		return false;
@@ -275,7 +270,7 @@ bool Looter::LootFlora(const ItemInfo& item, const LocalPlayer& player)
 		.choice = 0xFF,
 		.forceActivate = 0
 	};
-	MsgSender::Send(&requestActivateRefMessageData, sizeof requestActivateRefMessageData);
+
 
 	return true;
 }
@@ -318,8 +313,7 @@ bool Looter::ProcessEntity(const TesObjectRefr& entity, const LocalPlayer& local
 
 void Looter::Loot()
 {
-	if (!MsgSender::IsEnabled())
-		return;
+
 
 	if (Settings::looter.mode == LooterSettings::Mode::Disabled || Settings::looter.mode == LooterSettings::Mode::Keybind && !lootItemsRequested)
 		return;
